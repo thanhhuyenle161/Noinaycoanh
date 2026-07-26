@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Huyền ❤️ Tú</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<canvas id="c"></canvas>
+
+<!-- Khối chính -->
+<div class="center">
+
+<h1 class="title">
+Huyền <span>❤️</span> Tú
+</h1>
+
+<div class="heart">
+❤️
+</div>
+
+<p id="typing"></p>
+
+<div class="small">
+Giữa hàng tỷ vì sao trong vũ trụ,<br>
+chị vẫn chọn em.
+</div>
+
+</div>
+
+<!-- Popup -->
+<div id="proposal">
+
+<h1>💖</h1>
+
+<h2>Huyền</h2>
+
+<p>
+Will you be my girlfriend?
+</p>
+
+<div class="buttons">
+
+<button id="yes">
+Có 💕
+</button>
+
+<button id="no">
+Không 😆
+</button>
+
+</div>
+
+</div>
+
+<audio id="bgm" loop>
+
+<source src="music.mp3" type="audio/mpeg">
+
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
