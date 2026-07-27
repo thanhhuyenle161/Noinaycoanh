@@ -44,18 +44,30 @@ document.addEventListener("touchstart",playMusic,{once:true});
 
 const messages=[
     
-"Bé ơi /-rose ",
+"Bé ơi ",
+    
 "Chị không giỏi nói những lời ngọt ngào, nhưng chị muốn em biết ",
-"rằng chị cũng đang chân trọng hành trình của chúng ta  ❤️",
-" theo chị không có hành trình nào là đơn giản ❤️",
-" cũng không có sự xuất hiện nào là vô lý  ❤️",
-" điều mình có thể làm là học hỏi và lấy kinh nghiệm bước tiếp ❤️",
-" ai cũng sẽ có những góc riêng nhưng chị muốn chúng ta cùng nhau chia sẽ ❤️",
-" chị sẽ là nơi để em có thể dựa vào những khi em lo lắng và suy nghĩ nhiều ❤️",
-" chị cũng sẽ ở bên em những lúc em vui buồn và những khi em mệt ❤️",
-" em cứ thoải mái nằm trong lòng chị , yên tâm chị luôn ở đây ❤️",
-" với mọi người xung quanh em sao cũng được , nhưng với chị em cứ là chính em ❤️",
-" chị thích những cái ôm và cả những sự yên lặng nơi em ❤️",
+    
+"Rằng chị cũng đang chân trọng hành trình của chúng ta  ❤️",
+    
+"Theo chị không có hành trình nào là đơn giản ❤️",
+    
+"Cũng không có sự xuất hiện nào là vô lý  ❤️",
+    
+"Điều mình có thể làm là học hỏi và lấy kinh nghiệm bước tiếp ❤️",
+    
+"Ai cũng sẽ có những góc riêng nhưng chị muốn chúng ta cùng nhau chia sẽ ❤️",
+    
+"Chị sẽ là nơi để em có thể dựa vào những khi em lo lắng và suy nghĩ nhiều ❤️",
+    
+"Chị cũng sẽ ở bên em những lúc em vui buồn và những khi em mệt ❤️",
+    
+"Em cứ thoải mái nằm trong lòng chị , yên tâm chị luôn ở đây ❤️",
+    
+"Với mọi người xung quanh em sao cũng được , nhưng với chị em cứ là chính em ❤️",
+    
+"Chị thích những cái ôm và cả những sự yên lặng nơi em ❤️",
+    
 "Chị sẽ thương em thật nhiều ❤️",
 
 "Mỗi ngày đều làm em cười 😊",
@@ -63,6 +75,8 @@ const messages=[
 "Bé làm người yêu chị nhé 💕",
 
 "Huyền ❤️ Tú"
+    
+"Chị đến là vì em ❤️",
 
 ];
 
