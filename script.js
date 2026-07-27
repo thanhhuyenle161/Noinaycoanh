@@ -67,6 +67,9 @@ const messages=[
 "Với mọi người xung quanh em sao cũng được , nhưng với chị em cứ là chính em ❤️",
     
 "Chị thích những cái ôm và cả những sự yên lặng nơi em ❤️",
+
+
+"Chị đến là vì em ❤️",
     
 "Chị sẽ thương em thật nhiều ❤️",
 
@@ -75,8 +78,6 @@ const messages=[
 "Bé làm người yêu chị nhé 💕",
 
 "Huyền ❤️ Tú"
-    
-"Chị đến là vì em ❤️",
 
 ];
 
@@ -416,3 +417,373 @@ function drawMoon(){
     ctx.fill();
 
 }
+// ==========================================
+// SCRIPT PART 3
+// Animals + Spark
+// ==========================================
+
+// ==========================
+// Spark
+// ==========================
+
+const spark = [];
+
+for(let i=0;i<180;i++){
+
+    spark.push({
+
+        angle:Math.random()*Math.PI*2,
+
+        radius:Math.random()*170,
+
+        size:Math.random()*3+1,
+
+        alpha:Math.random()
+
+    });
+
+}
+
+// ==========================
+// Animals
+// ==========================
+
+function drawAnimals(cx,cy){
+
+    animalAngle += 0.02;
+
+    const r = 60;
+
+    const x = cx + Math.cos(animalAngle)*r;
+
+    const y = cy + Math.sin(animalAngle)*r;
+
+    // tay nắm
+
+    ctx.beginPath();
+
+    ctx.strokeStyle="#ffc0cb";
+
+    ctx.lineWidth=3;
+
+    ctx.moveTo(x-12,y);
+
+    ctx.lineTo(x+12,y);
+
+    ctx.stroke();
+
+    // tim
+
+    ctx.font="18px serif";
+
+    ctx.fillText("💕",x-8,y-12);
+
+    // dê
+
+    ctx.font="32px serif";
+
+    ctx.fillText("🐐",x-30,y+10);
+
+    // ngựa
+
+    ctx.fillText("🐎",x+10,y+10);
+
+}
+
+// ==========================
+// Spark
+// ==========================
+
+function drawSpark(){
+
+    for(const s of spark){
+
+        const x=
+
+        canvas.width/2+
+
+        Math.cos(s.angle)*s.radius;
+
+        const y=
+
+        canvas.height/2+
+
+        Math.sin(s.angle)*s.radius;
+
+        ctx.beginPath();
+
+        ctx.fillStyle=
+
+        `rgba(255,255,255,${s.alpha})`;
+
+        ctx.arc(x,y,s.size,0,Math.PI*2);
+
+        ctx.fill();
+
+        s.alpha += Math.random()*0.05-0.025;
+
+        if(s.alpha<0.2) s.alpha=0.2;
+
+        if(s.alpha>1) s.alpha=1;
+
+    }
+
+}
+// ==========================================
+// SCRIPT PART 4
+// Main Draw Loop
+// ==========================================
+
+function draw() {
+
+    // Xóa khung hình cũ
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // ==========================
+    // Nền đen
+    // ==========================
+
+    ctx.fillStyle = "#04020d";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // ==========================
+    // Stars
+    // ==========================
+
+    for (const s of stars) {
+
+        s.alpha += (Math.random() - 0.5) * 0.03;
+
+        if (s.alpha < 0.2) s.alpha = 0.2;
+        if (s.alpha > 1) s.alpha = 1;
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+
+    }
+
+    // ==========================
+    // Meteors
+    // ==========================
+
+    for (let i = meteors.length - 1; i >= 0; i--) {
+
+        const m = meteors[i];
+
+        ctx.beginPath();
+
+        const g = ctx.createLinearGradient(
+            m.x,
+            m.y,
+            m.x + m.len,
+            m.y - m.len
+        );
+
+        g.addColorStop(0, "white");
+        g.addColorStop(1, "transparent");
+
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 2;
+
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x + m.len, m.y - m.len);
+        ctx.stroke();
+
+        m.x += m.vx;
+        m.y += m.vy;
+
+        if (m.y > canvas.height + 100) {
+
+            meteors.splice(i, 1);
+
+        }
+
+    }
+
+    // ==========================
+    // Hearts
+    // ==========================
+
+    for (let i = hearts.length - 1; i >= 0; i--) {
+
+        const h = hearts[i];
+
+        ctx.globalAlpha = h.alpha;
+
+        ctx.font = h.size + "px serif";
+        ctx.fillText("💖", h.x, h.y);
+
+        ctx.globalAlpha = 1;
+
+        h.y -= h.speed;
+
+        if (h.y < -80) {
+
+            hearts.splice(i, 1);
+
+        }
+
+    }
+
+    // ==========================
+    // Sakura
+    // ==========================
+
+    for (const p of petals) {
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.rotSpeed;
+
+        if (p.y > canvas.height + 30) {
+
+            p.y = -30;
+            p.x = Math.random() * canvas.width;
+
+        }
+
+        ctx.save();
+
+        ctx.translate(p.x, p.y);
+
+        ctx.rotate(p.rot * Math.PI / 180);
+
+        ctx.fillStyle = "#ffc8dd";
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            0,
+            0,
+            p.r,
+            p.r * 0.6,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+        ctx.restore();
+
+    }
+
+    // ==========================
+    // Earth
+    // ==========================
+
+    const earth = drawEarth();
+
+    // ==========================
+    // Moon
+    // ==========================
+
+    drawMoon();
+
+    // ==========================
+    // Animals
+    // ==========================
+
+    drawAnimals(earth.x, earth.y);
+
+    // ==========================
+    // Spark
+    // ==========================
+
+    drawSpark();
+
+    requestAnimationFrame(draw);
+
+}
+
+draw();
+// ==========================================
+// SCRIPT PART 5
+// Popup + Loading + Buttons
+// ==========================================
+
+// ==========================
+// Loading
+// ==========================
+
+window.addEventListener("load", () => {
+
+    const loading = document.getElementById("loading");
+
+    if (loading) {
+
+        setTimeout(() => {
+
+            loading.style.opacity = "0";
+
+            setTimeout(() => {
+
+                loading.style.display = "none";
+
+            }, 800);
+
+        }, 1800);
+
+    }
+
+});
+
+// ==========================
+// Popup sau 45 giây
+// ==========================
+
+setTimeout(() => {
+
+    const popup = document.getElementById("proposal");
+
+    if (popup) {
+
+        popup.style.display = "flex";
+
+    }
+
+}, 45000);
+
+// ==========================
+// Button YES
+// ==========================
+
+const yes = document.getElementById("yes");
+
+if (yes) {
+
+    yes.onclick = () => {
+
+        alert("💖 Từ nay Huyền là người yêu của Tú nhé ❤️");
+
+    };
+
+}
+
+// ==========================
+// Button NO chạy trốn
+// ==========================
+
+const no = document.getElementById("no");
+
+if (no) {
+
+    no.addEventListener("mouseenter", () => {
+
+        no.style.position = "fixed";
+
+        no.style.left =
+            Math.random() * (window.innerWidth - 150) + "px";
+
+        no.style.top =
+            Math.random() * (window.innerHeight - 80) + "px";
+
+    });
+
+}
+
+// ==========================================
+// END SCRIPT
+// ==========================================
