@@ -294,7 +294,28 @@ ctx.closePath();
 ctx.fill();
 
 ctx.restore();
+// ===== Mây =====
+ctx.save();
 
+ctx.translate(cx, cy);
+ctx.rotate(-earthRotation * 0.5);
+
+ctx.globalAlpha = 0.25;
+ctx.fillStyle = "white";
+
+ctx.beginPath();
+ctx.ellipse(-35,-20,28,10,0,0,Math.PI*2);
+ctx.fill();
+
+ctx.beginPath();
+ctx.ellipse(25,15,22,8,0,0,Math.PI*2);
+ctx.fill();
+
+ctx.beginPath();
+ctx.ellipse(0,-55,30,10,0,0,Math.PI*2);
+ctx.fill();
+
+ctx.restore();
 // Sao trên địa cầu
 
 for(const s of earthStars){
@@ -351,7 +372,8 @@ ctx.fill();
 
 function drawAnimals(cx,cy){
 function draw(){
-
+ctx.fillStyle = "#04020d";
+ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
     // ==========================
@@ -569,7 +591,8 @@ function draw() {
     // Sparkles
     // ==========================
     drawSparkles();
-
+ctx.fillStyle = nebula;
+ctx.fillRect(0,0,canvas.width,canvas.height);
     requestAnimationFrame(draw);
 }
 
