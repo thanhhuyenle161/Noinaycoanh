@@ -387,474 +387,239 @@ function draw(){
     moonGlow.addColorStop(0,"rgba(255,255,220,.95)");
     moonGlow.addColorStop(1,"rgba(255,255,220,0)");
 
-    ctx.beginPath();
-    ctx.fillStyle = moonGlow;
-    ctx.arc(moonX,moonY,60,0,Math.PI*2);
-    ctx.fill();
+// =============================
+// Huyền ❤️ Tú
+// Clean script tail
+// =============================
 
-    ctx.beginPath();
-    ctx.fillStyle="#f4f4f4";
-    ctx.arc(moonX,moonY,35,0,Math.PI*2);
-    ctx.fill();
+// Nếu bạn đã có rồi thì giữ nguyên 3 mảng này
+// const hearts = [];
+// const petals = [];
+// const spark = [];
 
-    earth();
-      // ==========================
-    // Bé dê & bé ngựa
-    // ==========================
+// Nếu chưa có spark thì tạo lại
+const spark = [];
+for (let i = 0; i < 180; i++) {
+    spark.push({
+        a: Math.random() * Math.PI * 2,
+        r: Math.random() * 170,
+        size: Math.random() * 3,
+        alpha: Math.random()
+    });
+}
 
+function drawAnimals(cx, cy) {
     animalAngle += 0.02;
 
-    const earthX = canvas.width/2 + Math.cos(orbitAngle) * 220;
-    const earthY = canvas.height/2 + Math.sin(orbitAngle) * 220;
-
-    const runRadius = 55;
-
-    const groupX = earthX + Math.cos(animalAngle) * runRadius;
-    const groupY = earthY + Math.sin(animalAngle) * runRadius;
-
-    // Nắm tay
-    ctx.beginPath();
-    ctx.strokeStyle="#ffb6c1";
-    ctx.lineWidth=3;
-    ctx.moveTo(groupX-12,groupY);
-    ctx.lineTo(groupX+12,groupY);
-    ctx.stroke();
-
-    // Tim
-    ctx.font="18px serif";
-    ctx.fillText("💕",groupX-8,groupY-12);
-
-    // Bé dê
-    ctx.font="32px serif";
-    ctx.fillText("🐐",groupX-30,groupY+10);
-
-    // Bé ngựa
-    ctx.fillText("🐎",groupX+10,groupY+10);
-
-    // ==========================
-    // Quỹ đạo
-    // ==========================
+    const r = 55;
+    const x = cx + Math.cos(animalAngle) * r;
+    const y = cy + Math.sin(animalAngle) * r;
 
     ctx.beginPath();
-    ctx.setLineDash([8,8]);
-    ctx.strokeStyle="rgba(255,255,255,.15)";
-    ctx.arc(
-        canvas.width/2,
-        canvas.height/2,
-        220,
-        0,
-        Math.PI*2
-    );
+    ctx.strokeStyle = "#ffc0cb";
+    ctx.lineWidth = 3;
+    ctx.moveTo(x - 12, y);
+    ctx.lineTo(x + 12, y);
     ctx.stroke();
-    ctx.setLineDash([]);
 
-    // ==========================
-    // Sao nền
-    // ==========================
+    ctx.font = "18px serif";
+    ctx.fillText("💕", x - 8, y - 12);
 
-    for(const s of stars){
+    ctx.font = "32px serif";
+    ctx.fillText("🐐", x - 30, y + 10);
+    ctx.fillText("🐎", x + 10, y + 10);
+}
 
-        s.z -= s.speed;
-
-        if(s.z<=0){
-
-            s.z=1000;
-
-            s.x=Math.random()*canvas.width;
-            s.y=Math.random()*canvas.height;
-
-        }
-
-        const scale=1000/s.z;
-
-        const x=(s.x-canvas.width/2)*scale+canvas.width/2;
-        const y=(s.y-canvas.height/2)*scale+canvas.height/2;
+function drawSparkles() {
+    for (const s of spark) {
+        const x = canvas.width / 2 + Math.cos(s.a) * s.r;
+        const y = canvas.height / 2 + Math.sin(s.a) * s.r;
 
         ctx.beginPath();
-
-        ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
-
-        ctx.arc(
-            x,
-            y,
-            s.size*scale,
-            0,
-            Math.PI*2
-        );
-
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.arc(x, y, s.size, 0, Math.PI * 2);
         ctx.fill();
 
-        s.alpha+=Math.random()*0.04-.02;
-
-        if(s.alpha<0.2)s.alpha=0.2;
-        if(s.alpha>1)s.alpha=1;
-
+        s.alpha += Math.random() * 0.05 - 0.025;
+        if (s.alpha < 0.2) s.alpha = 0.2;
+        if (s.alpha > 1) s.alpha = 1;
     }
-      // ==========================
-    // Sao băng
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     // ==========================
+    // Nebula
+    // ==========================
+    const nebula = ctx.createRadialGradient(
+        canvas.width * 0.3 + Math.sin(Date.now() / 5000) * 120,
+        canvas.height * 0.4,
+        30,
+        canvas.width * 0.3,
+        canvas.height * 0.4,
+        500
+    );
+    nebula.addColorStop(0, "rgba(255,0,180,.18)");
+    nebula.addColorStop(.5, "rgba(120,0,255,.08)");
+    nebula.addColorStop(1, "transparent");
 
-    for(let i=meteors.length-1;i>=0;i--){
+    ctx.fillStyle = nebula;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        const m=meteors[i];
+    // ==========================
+    // Moon
+    // ==========================
+    const moonX = canvas.width / 2 + Math.cos(orbitAngle + 1.8) * 320;
+    const moonY = canvas.height / 2 + Math.sin(orbitAngle + 1.8) * 320;
 
-        const grad=ctx.createLinearGradient(
-            m.x,
-            m.y,
-            m.x+m.len,
-            m.y-m.len
+    const moonGlow = ctx.createRadialGradient(
+        moonX, moonY, 5,
+        moonX, moonY, 55
+    );
+    moonGlow.addColorStop(0, "rgba(255,255,220,.95)");
+    moonGlow.addColorStop(1, "rgba(255,255,220,0)");
+
+    ctx.beginPath();
+    ctx.fillStyle = moonGlow;
+    ctx.arc(moonX, moonY, 55, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.fillStyle = "#f5f5f5";
+    ctx.arc(moonX, moonY, 32, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ==========================
+    // Earth + Animals
+    // ==========================
+    const earthPos = drawEarth();
+    drawAnimals(earthPos.x, earthPos.y);
+
+    // ==========================
+    // Meteors
+    // ==========================
+    for (let i = meteors.length - 1; i >= 0; i--) {
+        const m = meteors[i];
+
+        const grad = ctx.createLinearGradient(
+            m.x, m.y,
+            m.x + m.len, m.y - m.len
         );
+        grad.addColorStop(0, "white");
+        grad.addColorStop(1, "transparent");
 
-        grad.addColorStop(0,"white");
-        grad.addColorStop(1,"transparent");
-
-        ctx.strokeStyle=grad;
-        ctx.lineWidth=2;
-
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(m.x,m.y);
-        ctx.lineTo(m.x+m.len,m.y-m.len);
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x + m.len, m.y - m.len);
         ctx.stroke();
 
-        m.x+=m.vx;
-        m.y+=m.vy;
+        m.x += m.vx;
+        m.y += m.vy;
 
-        if(m.y>canvas.height+200){
-
-            meteors.splice(i,1);
-
+        if (m.y > canvas.height + 200) {
+            meteors.splice(i, 1);
         }
-
     }
 
     // ==========================
-    // Tim bay
+    // Hearts
     // ==========================
+    for (let i = hearts.length - 1; i >= 0; i--) {
+        const h = hearts[i];
 
-    for(let i=hearts.length-1;i>=0;i--){
+        ctx.font = h.size + "px serif";
+        ctx.fillText("💖", h.x, h.y);
 
-        const h=hearts[i];
+        h.y -= h.speed;
 
-        ctx.font=h.size+"px serif";
-
-        ctx.fillText("💖",h.x,h.y);
-
-        h.y-=h.speed;
-
-        if(h.y<-50){
-
-            hearts.splice(i,1);
-
+        if (h.y < -50) {
+            hearts.splice(i, 1);
         }
-
     }
 
     // ==========================
-    // Hoa anh đào
+    // Petals
     // ==========================
+    for (const p of petals) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += 2;
 
-    for(const p of petals){
-
-        p.x+=p.vx;
-        p.y+=p.vy;
-        p.rot+=2;
-
-        if(p.y>canvas.height+20){
-
-            p.y=-20;
-            p.x=Math.random()*canvas.width;
-
+        if (p.y > canvas.height + 20) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
         }
 
         ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI / 180);
 
-        ctx.translate(p.x,p.y);
-
-        ctx.rotate(p.rot*Math.PI/180);
-
-        ctx.fillStyle="#ffc0cb";
-
+        ctx.fillStyle = "#ffc0cb";
         ctx.beginPath();
-
-        ctx.ellipse(
-            0,
-            0,
-            p.r,
-            p.r*0.6,
-            0,
-            0,
-            Math.PI*2
-        );
-
+        ctx.ellipse(0, 0, p.r, p.r * 0.6, 0, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
-
     }
 
     // ==========================
-    // Hạt sáng
+    // Sparkles
     // ==========================
-
-    for(const s of spark){
-
-        const x=
-        canvas.width/2+
-        Math.cos(s.a)*s.r;
-
-        const y=
-        canvas.height/2+
-        Math.sin(s.a)*s.r;
-
-        ctx.beginPath();
-
-        ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
-
-        ctx.arc(
-            x,
-            y,
-            s.size,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        s.alpha+=Math.random()*0.05-.025;
-
-        if(s.alpha<0.2)s.alpha=0.2;
-        if(s.alpha>1)s.alpha=1;
-
-    }
-    // ==========================
-    // Kết thúc draw()
-    // ==========================
+    drawSparkles();
 
     requestAnimationFrame(draw);
-
 }
 
 draw();
 
 // ==========================
-// Sau 45 giây hiện lời tỏ tình
+// Proposal
 // ==========================
-
-setTimeout(()=>{
-
-    document.getElementById("proposal").style.display="block";
-
-},45000);
+setTimeout(() => {
+    document.getElementById("proposal").style.display = "block";
+}, 45000);
 
 // ==========================
-// Nút Có
+// Yes button
 // ==========================
-
-document.getElementById("yes").onclick=function(){
-
-    // Pháo hoa
-
-    for(let i=0;i<180;i++){
-
-        setTimeout(()=>{
-
-            const x=Math.random()*canvas.width;
-            const y=Math.random()*canvas.height;
+document.getElementById("yes").onclick = function () {
+    for (let i = 0; i < 180; i++) {
+        setTimeout(() => {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
 
             ctx.beginPath();
-
-            ctx.fillStyle=
-            `hsl(${Math.random()*360},100%,70%)`;
-
-            ctx.arc(
-                x,
-                y,
-                Math.random()*6+2,
-                0,
-                Math.PI*2
-            );
-
+            ctx.fillStyle = `hsl(${Math.random() * 360},100%,70%)`;
+            ctx.arc(x, y, Math.random() * 6 + 2, 0, Math.PI * 2);
             ctx.fill();
-
-        },i*10);
-
+        }, i * 10);
     }
 
     alert("💖 Từ nay Huyền là người yêu của Tú nha 💕");
-
 };
 
 // ==========================
-// Nút Không chạy trốn
+// No button
 // ==========================
+const no = document.getElementById("no");
 
-const no=document.getElementById("no");
-
-no.addEventListener("mouseenter",()=>{
-
-    no.style.position="fixed";
-
-    no.style.left=
-    Math.random()*(window.innerWidth-140)+"px";
-
-    no.style.top=
-    Math.random()*(window.innerHeight-80)+"px";
-
-});
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-// ===================
-// Nebula
-// ===================
-const nebula = ctx.createRadialGradient(
-canvas.width*0.3 + Math.sin(Date.now()/4000)*100,
-canvas.height*0.4,
-50,
-canvas.width*0.3,
-canvas.height*0.4,
-550
-);
-
-nebula.addColorStop(0,"rgba(255,0,180,.15)");
-nebula.addColorStop(.5,"rgba(120,0,255,.08)");
-nebula.addColorStop(1,"transparent");
-
-ctx.fillStyle=nebula;
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-// ===================
-// Moon
-// ===================
-const moonX=canvas.width/2+Math.cos(orbitAngle+1.8)*320;
-const moonY=canvas.height/2+Math.sin(orbitAngle+1.8)*320;
-
-const moonGlow=ctx.createRadialGradient(
-moonX,moonY,5,
-moonX,moonY,55
-);
-
-moonGlow.addColorStop(0,"rgba(255,255,220,.9)");
-moonGlow.addColorStop(1,"rgba(255,255,220,0)");
-
-ctx.beginPath();
-ctx.fillStyle=moonGlow;
-ctx.arc(moonX,moonY,55,0,Math.PI*2);
-ctx.fill();
-
-ctx.beginPath();
-ctx.fillStyle="#f5f5f5";
-ctx.arc(moonX,moonY,32,0,Math.PI*2);
-ctx.fill();
-
-// ===================
-// Earth
-// ===================
-
-earth();
-animalAngle+=0.02;
-
-const r=55;
-
-const x=cx+Math.cos(animalAngle)*r;
-const y=cy+Math.sin(animalAngle)*r;
-
-// Tay
-
-ctx.beginPath();
-ctx.strokeStyle="#ffc0cb";
-ctx.lineWidth=3;
-ctx.moveTo(x-12,y);
-ctx.lineTo(x+12,y);
-ctx.stroke();
-
-// Tim
-
-ctx.font="18px serif";
-ctx.fillText("💕",x-8,y-12);
-
-// Bé dê
-
-ctx.font="32px serif";
-ctx.fillText("🐐",x-30,y+10);
-
-// Bé ngựa
-
-ctx.fillText("🐎",x+10,y+10);
-
-}
-
-// =============================
-// Hạt sáng quanh địa cầu
-// =============================
-
-const spark=[];
-
-for(let i=0;i<180;i++){
-
-spark.push({
-
-a:Math.random()*Math.PI*2,
-r:Math.random()*170,
-size:Math.random()*3,
-alpha:Math.random()
-
+no.addEventListener("mouseenter", () => {
+    no.style.position = "fixed";
+    no.style.left = Math.random() * (window.innerWidth - 140) + "px";
+    no.style.top = Math.random() * (window.innerHeight - 80) + "px";
 });
 
+// ==========================
+// Music
+// ==========================
+const bgm = document.getElementById("bgm");
+
+function playMusic() {
+    bgm.play().catch(() => {});
 }
 
-function drawSparkles(){
-
-for(const s of spark){
-
-const x=
-canvas.width/2+
-Math.cos(s.a)*s.r;
-
-const y=
-canvas.height/2+
-Math.sin(s.a)*s.r;
-
-ctx.beginPath();
-
-ctx.fillStyle=
-`rgba(255,255,255,${s.alpha})`;
-
-ctx.arc(
-x,
-y,
-s.size,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-s.alpha+=Math.random()*0.05-.025;
-
-if(s.alpha<0.2)s.alpha=0.2;
-if(s.alpha>1)s.alpha=1;
-
-}
-
-}
-<audio id="bgm" autoplay loop preload="auto">
-    <source src="noinaycoanh.mp3" type="audio/mpeg">
-    Trình duyệt của bạn không hỗ trợ audio.
-</audio>
-  // =========================
-// Phát nhạc
-// =========================
-
-const bgm=document.getElementById("bgm");
-
-function playMusic(){
-
-    bgm.play().catch(()=>{});
-
-}
-
-document.addEventListener("click",playMusic,{once:true});
-document.addEventListener("touchstart",playMusic,{once:true});
-</script>
-</body>
-</html>
+document.addEventListener("click", playMusic, { once: true });
+document.addEventListener("touchstart", playMusic, { once: true });
