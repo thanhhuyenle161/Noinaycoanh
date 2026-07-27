@@ -477,10 +477,4 @@ no.addEventListener("mouseenter",()=>{
 
     no.style.top = Math.random()*(window.innerHeight-60)+"px";
 
-});
-
-</script>
-</body>
-</html>
-
 }
