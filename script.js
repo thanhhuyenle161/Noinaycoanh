@@ -188,331 +188,299 @@ for (let i = 0; i < 80; i++) {
         rot: Math.random() * 360
 
     });
+    function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+// ===== Mặt trăng =====
+const moonX = canvas.width/2 + Math.cos(orbitAngle+1.8)*320;
+const moonY = canvas.height/2 + Math.sin(orbitAngle+1.8)*320;
 
-}
-// =====================================
-// SCRIPT PART 2
-// Địa cầu - Mặt trăng
-// =====================================
+const moonGlow = ctx.createRadialGradient(
+moonX,moonY,5,
+moonX,moonY,55
+);
 
-// Quỹ đạo
+moonGlow.addColorStop(0,"rgba(255,255,220,.9)");
+moonGlow.addColorStop(1,"rgba(255,255,220,0)");
 
-let orbitAngle = 0;
-let earthRotation = 0;
-let animalAngle = 0;
+ctx.beginPath();
+ctx.fillStyle=moonGlow;
+ctx.arc(moonX,moonY,55,0,Math.PI*2);
+ctx.fill();
 
-// =====================
-// Sao trên địa cầu
-// =====================
+ctx.beginPath();
+ctx.fillStyle="#f3f3f3";
+ctx.arc(moonX,moonY,32,0,Math.PI*2);
+ctx.fill();
+earth();
+// =======================
+// Bé dê và bé ngựa nắm tay
+// =======================
 
-const earthStars = [];
+animalAngle += 0.02;
 
-for (let i = 0; i < 1500; i++) {
+// Vị trí của địa cầu
+const earthX = canvas.width/2 + Math.cos(orbitAngle) * 220;
+const earthY = canvas.height/2 + Math.sin(orbitAngle) * 220;
 
-    const angle = Math.random() * Math.PI * 2;
-    const radius = Math.sqrt(Math.random()) * 130;
+// Chạy bên trong địa cầu
+const runRadius = 55;
 
-    earthStars.push({
+// Tâm của hai bé
+const groupX = earthX + Math.cos(animalAngle) * runRadius;
+const groupY = earthY + Math.sin(animalAngle) * runRadius;
 
-        x: Math.cos(angle) * radius,
+// Đường nối hai bé (nắm tay)
+ctx.beginPath();
+ctx.strokeStyle = "#ffb6c1";
+ctx.lineWidth = 3;
+ctx.moveTo(groupX - 12, groupY);
+ctx.lineTo(groupX + 12, groupY);
+ctx.stroke();
 
-        y: Math.sin(angle) * radius,
+// Trái tim nhỏ giữa hai bé
+ctx.font = "18px serif";
+ctx.fillText("💕", groupX - 8, groupY - 12);
 
-        size: Math.random() * 2 + 0.5,
+// Bé dê
+ctx.font = "32px serif";
+ctx.fillText("🐐", groupX - 30, groupY + 10);
 
-        alpha: Math.random()
+// Bé ngựa
+ctx.fillText("🐎", groupX + 10, groupY + 10);
 
-    });
+ctx.beginPath();
+ctx.strokeStyle="rgba(255,255,255,0.15)";
+ctx.setLineDash([8,8]);
+ctx.arc(canvas.width/2,canvas.height/2,220,0,Math.PI*2);
+ctx.stroke();
+ctx.setLineDash([]);
+for(const s of stars){
 
-}
+    // Sao tiến về phía người xem
+    s.z -= s.speed;
 
-// =====================
-// Vẽ địa cầu
-// =====================
+    if(s.z <= 0){
 
-function drawEarth() {
+        s.z = 1000;
 
-    orbitAngle += 0.01;
-    earthRotation += 0.01;
+        s.x = Math.random()*canvas.width;
 
-    const cx = canvas.width / 2 + Math.cos(orbitAngle) * 220;
-    const cy = canvas.height / 2 + Math.sin(orbitAngle) * 220;
-
-    // Glow
-
-    const glow = ctx.createRadialGradient(
-
-        cx, cy, 20,
-
-        cx, cy, 220
-
-    );
-
-    glow.addColorStop(0, "rgba(90,230,255,.45)");
-    glow.addColorStop(1, "rgba(0,0,0,0)");
-
-    ctx.beginPath();
-    ctx.fillStyle = glow;
-    ctx.arc(cx, cy, 220, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Đại dương
-
-    const ocean = ctx.createRadialGradient(
-
-        cx - 35,
-
-        cy - 35,
-
-        20,
-
-        cx,
-
-        cy,
-
-        130
-
-    );
-
-    ocean.addColorStop(0, "#8cf5ff");
-    ocean.addColorStop(.3, "#4ab6ff");
-    ocean.addColorStop(.7, "#0d61af");
-    ocean.addColorStop(1, "#00194a");
-
-    ctx.beginPath();
-    ctx.fillStyle = ocean;
-    ctx.arc(cx, cy, 130, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Lục địa
-
-    ctx.save();
-
-    ctx.translate(cx, cy);
-
-    ctx.rotate(earthRotation);
-
-    ctx.fillStyle = "rgba(40,180,80,.85)";
-
-    ctx.beginPath();
-    ctx.moveTo(-45,-30);
-    ctx.bezierCurveTo(-10,-55,25,-40,8,-5);
-    ctx.bezierCurveTo(25,20,-10,35,-35,15);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(30,15);
-    ctx.bezierCurveTo(55,25,45,55,18,45);
-    ctx.bezierCurveTo(5,25,10,10,30,15);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(-70,0);
-    ctx.bezierCurveTo(-90,10,-75,40,-45,35);
-    ctx.bezierCurveTo(-30,15,-40,-5,-70,0);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.restore();
-
-    // Sao phát sáng
-
-    for (const s of earthStars) {
-
-        const rx =
-            s.x * Math.cos(earthRotation) -
-            s.y * Math.sin(earthRotation);
-
-        const ry =
-            s.x * Math.sin(earthRotation) +
-            s.y * Math.cos(earthRotation);
-
-        ctx.beginPath();
-
-        ctx.fillStyle = `rgba(170,255,255,${s.alpha})`;
-
-        ctx.arc(
-
-            cx + rx,
-
-            cy + ry,
-
-            s.size,
-
-            0,
-
-            Math.PI * 2
-
-        );
-
-        ctx.fill();
+        s.y = Math.random()*canvas.height;
 
     }
 
-    return {
+    const scale = 1000 / s.z;
 
-        x: cx,
+    const x = (s.x - canvas.width/2) * scale + canvas.width/2;
 
-        y: cy
+    const y = (s.y - canvas.height/2) * scale + canvas.height/2;
 
-    };
-
-}
-
-// =====================
-// Mặt trăng
-// =====================
-
-function drawMoon() {
-
-    const moonX =
-        canvas.width / 2 +
-        Math.cos(orbitAngle + 1.8) * 320;
-
-    const moonY =
-        canvas.height / 2 +
-        Math.sin(orbitAngle + 1.8) * 320;
-
-    const glow = ctx.createRadialGradient(
-
-        moonX,
-
-        moonY,
-
-        5,
-
-        moonX,
-
-        moonY,
-
-        55
-
-    );
-
-    glow.addColorStop(0, "rgba(255,255,220,.9)");
-    glow.addColorStop(1, "rgba(255,255,220,0)");
+    const radius = s.size * scale;
 
     ctx.beginPath();
-    ctx.fillStyle = glow;
-    ctx.arc(moonX, moonY, 55, 0, Math.PI * 2);
+
+    ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
+
+    ctx.arc(x,y,radius,0,Math.PI*2);
+
     ctx.fill();
 
-    ctx.beginPath();
-    ctx.fillStyle = "#f3f3f3";
-    ctx.arc(moonX, moonY, 32, 0, Math.PI * 2);
-    ctx.fill();
+    s.alpha += Math.random()*0.04 - 0.02;
 
-}
-// =====================================
-// SCRIPT PART 3
-// Hai bé + Spark
-// =====================================
+    if(s.alpha<0.2)s.alpha=0.2;
 
-// =====================
-// Spark quanh trái tim
-// =====================
-
-const spark = [];
-
-for (let i = 0; i < 180; i++) {
-
-    spark.push({
-
-        a: Math.random() * Math.PI * 2,
-
-        r: Math.random() * 170,
-
-        size: Math.random() * 3,
-
-        alpha: Math.random()
-
-    });
+    if(s.alpha>1)s.alpha=1;
 
 }
 
-// =====================
-// Hai bé nắm tay
-// =====================
+for(let i=meteors.length-1;i>=0;i--){
+const m=meteors[i];
+const grad=ctx.createLinearGradient(m.x,m.y,m.x+m.len,m.y-m.len);
+grad.addColorStop(0,'white');
+grad.addColorStop(1,'transparent');
+ctx.strokeStyle=grad;
+ctx.lineWidth=2;
+ctx.beginPath();
+ctx.moveTo(m.x,m.y);
+ctx.lineTo(m.x+m.len,m.y-m.len);
+ctx.stroke();
+m.x+=m.vx;m.y+=m.vy;
+if(m.y>canvas.height+200) meteors.splice(i,1);}
 
-function drawAnimals(cx, cy) {
+requestAnimationFrame(draw);}
+const hearts=[];
 
-    animalAngle += 0.02;
+setInterval(()=>{
 
-    const runRadius = 55;
+hearts.push({
 
-    const x = cx + Math.cos(animalAngle) * runRadius;
-    const y = cy + Math.sin(animalAngle) * runRadius;
+x:Math.random()*canvas.width,
 
-    // Nắm tay
+y:canvas.height+30,
 
-    ctx.beginPath();
-    ctx.strokeStyle = "#ffb6c1";
-    ctx.lineWidth = 3;
-    ctx.moveTo(x - 12, y);
-    ctx.lineTo(x + 12, y);
-    ctx.stroke();
+s:Math.random()*18+18
 
-    // Tim nhỏ
+});
 
-    ctx.font = "18px serif";
-    ctx.fillText("💕", x - 8, y - 12);
+},250);
+const spark=[];
 
-    // Bé dê
+for(let i=0;i<160;i++){
 
-    ctx.font = "32px serif";
-    ctx.fillText("🐐", x - 30, y + 10);
+spark.push({
 
-    // Bé ngựa
+a:Math.random()*Math.PI*2,
 
-    ctx.fillText("🐎", x + 10, y + 10);
+r:Math.random()*170,
+
+s:Math.random()*3,
+
+alpha:Math.random()
+
+});
+
+}
+const nebula=ctx.createRadialGradient(
+
+canvas.width*.3+Math.sin(Date.now()/5000)*120,
+
+canvas.height*.4,
+
+50,
+
+canvas.width*.3,
+
+canvas.height*.4,
+
+500
+
+);
+
+nebula.addColorStop(0,"rgba(255,0,180,.16)");
+nebula.addColorStop(.5,"rgba(120,0,255,.08)");
+nebula.addColorStop(1,"transparent");
+
+
+
+for(const s of spark){
+
+const x=canvas.width/2+Math.cos(s.a)*s.r;
+
+const y=canvas.height/2+Math.sin(s.a)*s.r;
+
+ctx.beginPath();
+
+ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
+
+ctx.arc(x,y,s.s,0,Math.PI*2);
+
+ctx.fill();
+
+s.alpha+=Math.random()*0.06-.03;
+
+if(s.alpha<.2)s.alpha=.2;
+if(s.alpha>1)s.alpha=1;
+
+}
+for(let i=hearts.length-1;i>=0;i--){
+
+const h=hearts[i];
+
+ctx.font=h.s+"px serif";
+
+ctx.fillText("💖",h.x,h.y);
+
+h.y-=2;
+
+if(h.y<-50){
+
+hearts.splice(i,1);
 
 }
 
-// =====================
-// Spark lấp lánh
-// =====================
+}
+for(const p of petals){
 
-function drawSpark() {
+p.y+=p.vy;
+p.x+=p.vx;
+p.rot+=2;
 
-    for (const s of spark) {
+if(p.y>canvas.height+20){
 
-        const x =
-            canvas.width / 2 +
-            Math.cos(s.a) * s.r;
+p.y=-20;
+p.x=Math.random()*canvas.width;
 
-        const y =
-            canvas.height / 2 +
-            Math.sin(s.a) * s.r;
+}
 
-        ctx.beginPath();
+ctx.save();
 
-        ctx.fillStyle =
-        `rgba(255,255,255,${s.alpha})`;
+ctx.translate(p.x,p.y);
 
-        ctx.arc(
+ctx.rotate(p.rot*Math.PI/180);
 
-            x,
+ctx.fillStyle="#ffc0cb";
 
-            y,
+ctx.beginPath();
 
-            s.size,
+ctx.ellipse(0,0,p.r,p.r*0.6,0,0,Math.PI*2);
 
-            0,
+ctx.fill();
 
-            Math.PI * 2
+ctx.restore();
 
-        );
+}
+ctx.fillStyle=nebula;
+ctx.fillRect(0,0,canvas.width,canvas.height);
+draw();
 
-        ctx.fill();
 
-        s.alpha += Math.random() * 0.05 - 0.025;
+// Sau 30 giây hiện lời tỏ tình
+setTimeout(()=>{
 
-        if (s.alpha < 0.2) s.alpha = 0.2;
+document.getElementById("proposal").style.display="block";
 
-        if (s.alpha > 1) s.alpha = 1;
+},45000);
 
-    }
+// Bấm Có
+document.getElementById("yes").onclick=function(){
+
+for(let i=0;i<120;i++){
+
+setTimeout(()=>{
+
+const x=Math.random()*canvas.width;
+const y=Math.random()*canvas.height;
+
+ctx.beginPath();
+
+ctx.fillStyle=`hsl(${Math.random()*360},100%,70%)`;
+
+ctx.arc(x,y,Math.random()*6+3,0,Math.PI*2);
+
+ctx.fill();
+
+},i*15);
+
+}
+
+alert("💖 Từ nay Huyền là người yêu của Tú nha 💕");
+
+}
+// Nút Không chạy khắp nơi 
+const no = document.getElementById("no");
+
+no.addEventListener("mouseenter",()=>{
+
+    no.style.position = "fixed";
+
+    no.style.left = Math.random()*(window.innerWidth-120)+"px";
+
+    no.style.top = Math.random()*(window.innerHeight-60)+"px";
+
+});
+
+</script>
+</body>
+</html>
 
 }
