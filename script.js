@@ -44,39 +44,46 @@ document.addEventListener("touchstart",playMusic,{once:true});
 
 const messages=[
     
-"Bé ơi ",
-    
-"Chị không giỏi nói những lời ngọt ngào, nhưng chị muốn em biết ",
-    
-"Rằng chị cũng đang trân trọng hành trình của chúng ta  ❤️",
-    
-"Theo chị không có hành trình nào là đơn giản ❤️",
-    
-"Cũng không có sự xuất hiện nào là vô lý  ❤️",
-    
-"Điều mình có thể làm là học hỏi và lấy kinh nghiệm bước tiếp ❤️",
-    
-"Ai cũng sẽ có những góc riêng nhưng chị muốn chúng ta cùng nhau chia sẻ ❤️",
-    
-"Chị sẽ là nơi để em có thể dựa vào những khi em lo lắng và suy nghĩ nhiều ❤️",
-    
-"Chị cũng sẽ ở bên em những lúc em vui buồn và những khi em mệt ❤️",
-    
-"Em cứ thoải mái tựa vào chị nhé ❤️ , yên tâm chị luôn ở đây ❤️",
-    
-"Với mọi người xung quanh em sao cũng được , nhưng với chị em cứ là chính em ❤️",
-    
-"Chị thích những cái ôm và cả những sự yên lặng nơi em ❤️",
 
-"Chị đến là vì em ❤️",
+    "Bé ơi ",
+    "Chị không giỏi nói những lời ngọt ngào, nhưng chị muốn em biết ",
+    "Rằng chị cũng đang trân trọng hành trình của chúng ta  ❤️",
+    "Theo chị không có hành trình nào là đơn giản ❤️",
+    "Cũng không có sự xuất hiện nào là vô lý  ❤️",
+    "Điều mình có thể làm là học hỏi và lấy kinh nghiệm bước tiếp ❤️",
     
-"Chị sẽ thương em thật nhiều ❤️",
 
-"Mỗi ngày đều làm em cười 😊",
+    "Ai cũng sẽ có những góc riêng nhưng chị muốn chúng ta cùng nhau chia sẻ ❤️",
+    
 
-"Bé làm người yêu chị nhé 💕",
+    "Chị sẽ là nơi để em có thể dựa vào những khi em lo lắng và suy nghĩ nhiều ❤️",
+    
 
-"Huyền ❤️ Tú"
+    "Chị cũng sẽ ở bên em những lúc em vui buồn và những khi em mệt ❤️",
+    
+
+    "Em cứ thoải mái tựa vào chị nhé ❤️ , yên tâm chị luôn ở đây ❤️",
+    
+
+    "Với mọi người xung quanh em sao cũng được , nhưng với chị em cứ là chính em ❤️",
+    
+
+    "Chị thích những cái ôm và cả những sự yên lặng nơi em ❤️",
+
+
+    "Chị đến là vì em ❤️",
+    
+
+    "Chị sẽ thương em thật nhiều ❤️",
+
+
+    "Mỗi ngày đều làm em cười 😊",
+
+
+    "Bé làm người yêu chị nhé 💕",
+
+
+    "Huyền ❤️ Tú"
 
 ];
 
